@@ -1,0 +1,292 @@
+﻿Of course. My apologies for removing that element. It's a great feature that adds to the retro-tech ambiance.
+
+I have restored the animated screen scanner line. The static scanline overlay has been replaced with the bright, moving horizontal bar that continuously scrolls down the viewport, exactly as you requested.
+
+Here is the complete, updated CSS. Simply replace your existing stylesheet with this code.
+
+```css
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+/* --- Keyframe Animations --- */
+@keyframes backgroundPan {
+    0%
+
+{
+    background-position: 0% 0%;
+}
+
+100% {
+    background-position: 100% 100%;
+}
+
+}
+
+/* --- THIS IS THE ANIMATION FOR THE SCREEN SCROLLBAR --- */
+@keyframes screenScanner {
+    0% {
+        transform: translateY(-100%);
+    }
+
+    100% {
+        transform: translateY(100vh);
+    }
+}
+
+@keyframes floating {
+    0%, 100% {
+        transform: translateY(0) rotateX(10deg);
+    }
+
+    50% {
+        transform: translateY(-15px) rotateX(10deg);
+    }
+}
+
+@keyframes hologramFlicker {
+    0%, 100% {
+        opacity: 1;
+        filter: brightness(1);
+    }
+
+    50% {
+        opacity: 0.95;
+        filter: brightness(1.1);
+    }
+}
+
+@keyframes neonGlow {
+    0%, 100% {
+        text-shadow: 0 0 5px #0ff, 0 0 10px #0ff, 0 0 15px #0ff;
+    }
+
+    50% {
+        text-shadow: 0 0 10px #f0f, 0 0 20px #f0f, 0 0 30px #f0f;
+    }
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+/* --- Body & Background Environment --- */
+body {
+    background-color: #000;
+    color: #0ff;
+    font-family: 'Press Start 2P', monospace;
+    margin: 0;
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    perspective: 1200px;
+    background-image: radial-gradient(at 20% 80%, rgba(0, 255, 255, 0.15), transparent 40%), radial-gradient(at 80% 10%, rgba(255, 0, 255, 0.15), transparent 40%), linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+    background-repeat: no-repeat, no-repeat, repeat, repeat;
+    animation: backgroundPan 40s linear infinite;
+
+    position: relative;
+}
+
+    /* --- THIS IS THE SCROLLING BAR EFFECT --- */
+    body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.8), transparent);
+        box-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
+        animation: screenScanner 6s linear infinite;
+        z-index: 1000;
+        pointer-events: none;
+    }
+
+/* --- Main Upload Container --- */
+.upload-box {
+    background: rgba(10, 20, 30, 0.85);
+    border: 2px solid #0ff;
+    padding: 40px 50px;
+    margin-top: 100px;
+    border-radius: 20px;
+    width: 700px; /* Fixed width */
+    text-align: center;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.3), 0 0 40px rgba(255, 0, 255, 0.2), inset 0 0 15px rgba(0, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    position: relative;
+    transform-style: preserve-3d;
+    transform: rotateX(10deg); /* Initial 3D tilt */
+    animation: floating 8s ease-in-out infinite, hologramFlicker 6s linear infinite;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+    /* Decorative corner brackets */
+    .upload-box::before, .upload-box::after {
+        content: '';
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        border-color: #f0f;
+        border-style: solid;
+        animation: neonGlow 4s ease-in-out infinite alternate;
+        transition: all 0.4s ease;
+    }
+
+    .upload-box::before {
+        top: -10px;
+        left: -10px;
+        border-width: 2px 0 0 2px;
+        border-top-left-radius: 20px;
+    }
+
+    .upload-box::after {
+        bottom: -10px;
+        right: -10px;
+        border-width: 0 2px 2px 0;
+        border-bottom-right-radius: 20px;
+    }
+
+    .upload-box:hover::before, .upload-box:hover::after {
+        transform: scale(1.2);
+        filter: brightness(1.5);
+    }
+
+    /* --- Form Elements --- */
+    .upload-box label {
+        color: #ff0;
+        display: block;
+        margin-bottom: 25px;
+        font-size: 14px;
+        text-shadow: 0 0 10px #ff0;
+    }
+
+        .upload-box label::after {
+            content: '_';
+            animation: blink 1s step-end infinite;
+        }
+
+    .upload-box input[type="file"] {
+        font-family: 'Press Start 2P', monospace;
+        background: rgba(0,0,0,0.3);
+        border: 2px dashed #0ff;
+        color: #0ff;
+        padding: 20px;
+        width: calc(100% - 44px);
+        margin-bottom: 30px;
+        font-size: 11px;
+        border-radius: 10px;
+        box-shadow: inset 0 0 10px rgba(0, 255, 255, 0.2);
+        cursor: pointer;
+        transition: all 0.3s ease-out;
+    }
+
+        .upload-box input[type="file"]:hover {
+            border-color: #f0f;
+            color: #f0f;
+            background: rgba(255, 0, 255, 0.05);
+            transform: scale(1.02);
+        }
+
+    .upload-box input[type="submit"] {
+        font-family: 'Press Start 2P', monospace;
+        background: linear-gradient(45deg, #0ff, #00aaaa);
+        color: #000;
+        border: none;
+        padding: 18px 35px;
+        font-size: 14px;
+        cursor: pointer;
+        border-radius: 8px;
+        text-transform: uppercase;
+        box-shadow: 0 5px 20px rgba(0, 255, 255, 0.4);
+        transition: all 0.3s ease-out;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .upload-box input[type="submit"]:hover {
+            background: linear-gradient(45deg, #f0f, #aa00aa);
+            color: #fff;
+            box-shadow: 0 8px 25px rgba(255, 0, 255, 0.5);
+            transform: translateY(-3px);
+        }
+
+        .upload-box input[type="submit"]:active {
+            transform: translateY(0);
+        }
+
+/* --- Output Area --- */
+.output {
+    background: rgba(0, 20, 0, 0.8);
+    color: #00ff41;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    white-space: pre;
+    padding: 30px;
+    border: 1px solid #00ff41;
+    margin-top: 40px;
+    width: 700px;
+    max-height: 450px;
+    overflow-y: auto;
+    border-radius: 10px;
+    box-shadow: 0 0 25px rgba(0, 255, 65, 0.3), inset 0 0 15px rgba(0, 255, 65, 0.1);
+    backdrop-filter: blur(5px);
+    text-shadow: 0 0 5px rgba(0, 255, 65, 0.6);
+}
+    /* Custom Scrollbar */
+    .output::-webkit-scrollbar {
+        width: 12px;
+    }
+
+    .output::-webkit-scrollbar-track {
+        background: rgba(0,0,0,0.5);
+        border-radius: 6px;
+    }
+
+    .output::-webkit-scrollbar-thumb {
+        background: linear-gradient(180deg, #00ff41, #00aa00);
+        border-radius: 6px;
+    }
+
+        .output::-webkit-scrollbar-thumb:hover {
+            background: #0ff;
+        }
+
+/* --- Buttons & Notifications --- */
+#copyBtn {
+    font-family: 'Press Start 2P', monospace;
+    background: linear-gradient(45deg, #ffae00, #ff8c00);
+    color: #000;
+    border: none;
+    padding: 12px 24px;
+    font-size: 10px;
+    cursor: pointer;
+    margin-top: 20px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    box-shadow: 0 4px 15px rgba(255, 174, 0, 0.4);
+}
+
+    #copyBtn:hover {
+        background: linear-gradient(45deg, #0f0, #00aa00);
+        color: #fff;
+        box-shadow: 0 6px 20px rgba(0, 255, 0, 0.5);
+        transform: translateY(-2px);
+    }
+
+.copy-notification {
+    position: fixed;
+    top: 30px;
+    transform: translateX(-50%);
+    background: #0f0;
+    color: #000;
+    padding: 15px 30px;
+    border-radius: 8px;
+    font-size: 10px;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.7);
+    z-index: 2000;
+}
+
+```

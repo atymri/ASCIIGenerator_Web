@@ -1,0 +1,17 @@
+﻿<div class="upload-box">
+    <form method="post" enctype="multipart/form-data" asp-action="Generate" asp-controller="Home">
+        <label>Select an image file:</label><br />
+        <input type="file" name="file" accept="image/*" required /><br />
+        <input type="submit" value="Convert to ASCII" />
+    </form>
+    <div class="output">
+    </div>
+    <button id="copyBtn" type="button" style="margin-top:15px; padding:8px 20px; cursor:pointer; font-family: monospace;">
+        Copy to Clipboard
+    </button>
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript" src="/scripts/Something.js"></script>
+}
