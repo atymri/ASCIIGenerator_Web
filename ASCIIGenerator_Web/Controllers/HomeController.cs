@@ -23,7 +23,7 @@ namespace SerilogConfiguration.Controllers
         }
 
         [HttpPost]
-        [Route("Generate")] // Add this line
+        [Route("Generate")]
         public async Task<IActionResult> Generate(IFormFile file)
         {
             string generatedPath = Path.Combine(Directory.GetCurrentDirectory(), "generated");
